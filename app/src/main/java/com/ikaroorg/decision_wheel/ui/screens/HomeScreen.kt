@@ -1,7 +1,6 @@
 package com.ikaroorg.decision_wheel.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,18 +16,34 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
+import com.ikaroorg.decision_wheel.data.Option
+import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController
 ) {
+    val rotation = remember { androidx.compose.animation.core.Animatable(0f) }
+
+    val options = remember {
+        listOf<Option>(
+            // Using an illustrator colors and texts
+            Option("1", "Option 1", Color(0xFF1E40AF)),
+            Option("2", "Option 2", Color(0xFF0D9488)),
+            Option("3", "Option 3", Color(0xFF14B8A6)),
+            Option("4", "Option 4", Color(0xFF3B82F6)),
+        )
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -76,12 +91,10 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                "Decision Wheel",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.headlineSmall
+            DecisionWheel(
+                options = options,
+                rotateAngle = rotation.value
             )
         }
     }
