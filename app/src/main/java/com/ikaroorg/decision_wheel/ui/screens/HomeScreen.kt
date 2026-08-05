@@ -198,7 +198,7 @@ fun HomeScreen(
                         Text(
                             "Edit options",
                             style = MaterialTheme.typography.titleLarge,
-                            fontSize = 24.sp
+                            fontSize = 18.sp
                         )
                     }
                 }
