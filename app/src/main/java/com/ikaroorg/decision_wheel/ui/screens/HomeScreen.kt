@@ -1,14 +1,23 @@
 package com.ikaroorg.decision_wheel.ui.screens
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -17,6 +26,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,11 +37,14 @@ import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.data.Option
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
+import kotlinx.coroutines.launch
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController
 ) {
+    val scope = rememberCoroutineScope()
     val rotation = remember { androidx.compose.animation.core.Animatable(0f) }
 
     val options = remember {
@@ -91,11 +104,51 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             DecisionWheel(
                 options = options,
                 rotateAngle = rotation.value
             )
+            Button(
+                onClick = {
+                    scope.launch {
+                        // draws to 3 to 6 laps and random stop
+                        val randomTarget = rotation.value + (360f * (3..6).random()) + (0..360).random()
+                        rotation.animateTo(
+                            targetValue = randomTarget,
+                            animationSpec = tween(
+                                durationMillis = 4000,
+                                easing = FastOutSlowInEasing // slow-motion effect
+                            )
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                enabled = options.size > 1
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.refresh_icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(42.dp)
+                    )
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        "SPIN",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+            }
         }
     }
 }
