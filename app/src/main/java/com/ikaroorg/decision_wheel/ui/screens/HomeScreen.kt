@@ -2,6 +2,7 @@ package com.ikaroorg.decision_wheel.ui.screens
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.data.Option
@@ -114,54 +117,90 @@ fun HomeScreen(
                 options = options,
                 rotateAngle = rotation.value
             )
-            Button(
-                onClick = {
-                    scope.launch {
-                        // draws to 3 to 6 laps and random stop
-                        val randomTarget = rotation.value + (360f * (3..6).random()) + (0..360).random()
-                        rotation.animateTo(
-                            targetValue = randomTarget,
-                            animationSpec = tween(
-                                durationMillis = 4000,
-                                easing = FastOutSlowInEasing // slow-motion effect
-                            )
-                        )
-                    }
-                },
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .dropShadow(
-                        shape = RoundedCornerShape(20.dp),
-                        shadow = Shadow(
-                            radius = 10.dp,
-                            spread = 2.dp,
-                            color = Color(0x40000000),
-                            offset = DpOffset(0.dp, 4.dp)
-                        )
-                    ),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                enabled = !rotation.isRunning && options.size > 1
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                Button(
+                    onClick = {
+                        scope.launch {
+                            // draws to 3 to 6 laps and random stop
+                            val randomTarget = rotation.value + (360f * (3..6).random()) + (0..360).random()
+                            rotation.animateTo(
+                                targetValue = randomTarget,
+                                animationSpec = tween(
+                                    durationMillis = 4000,
+                                    easing = FastOutSlowInEasing // slow-motion effect
+                                )
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .dropShadow(
+                            shape = RoundedCornerShape(20.dp),
+                            shadow = Shadow(
+                                radius = 10.dp,
+                                spread = 2.dp,
+                                color = Color(0x40000000),
+                                offset = DpOffset(0.dp, 4.dp)
+                            )
+                        ),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    enabled = !rotation.isRunning && options.size > 1
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.refresh_icon),
-                        contentDescription = null,
-                        modifier = Modifier.size(42.dp)
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        "SPIN",
-                        style = MaterialTheme.typography.titleLarge
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.refresh_icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(42.dp)
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            "SPIN",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
+                OutlinedButton(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+                    enabled = !rotation.isRunning && options.size > 1
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.pencil),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            "Edit options",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontSize = 24.sp
+                        )
+                    }
                 }
             }
         }
