@@ -33,8 +33,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -49,6 +52,7 @@ import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.data.Option
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
+import com.ikaroorg.decision_wheel.utils.getSelectedOption
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +63,8 @@ fun HomeScreen(
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
     val rotation = remember { androidx.compose.animation.core.Animatable(0f) }
+
+    var selectedOption by remember { mutableStateOf<Option?>(null) }
 
     val options = remember {
         listOf<Option>(
@@ -134,6 +140,8 @@ fun HomeScreen(
                 Button(
                     onClick = {
                         scope.launch {
+                            selectedOption = null
+
                             // draws to 3 to 6 laps and random stop
                             val randomTarget = rotation.value + (360f * (3..6).random()) + (0..360).random()
                             rotation.animateTo(
@@ -143,6 +151,8 @@ fun HomeScreen(
                                     easing = FastOutSlowInEasing // slow-motion effect
                                 )
                             )
+
+                            selectedOption = getSelectedOption(rotation.value, options)
                         }
                     },
                     modifier = Modifier
