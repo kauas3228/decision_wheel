@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
-import com.ikaroorg.decision_wheel.data.Option
+import com.ikaroorg.decision_wheel.data.Model.Option
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
 import com.ikaroorg.decision_wheel.utils.getSelectedOption
 import kotlinx.coroutines.launch
