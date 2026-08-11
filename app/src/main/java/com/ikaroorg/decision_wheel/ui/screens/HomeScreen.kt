@@ -34,11 +34,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,33 +49,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
-import com.ikaroorg.decision_wheel.data.Model.Option
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
 import com.ikaroorg.decision_wheel.utils.getSelectedOption
+import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ViewModel = viewModel()
 ) {
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
     val rotation = remember { androidx.compose.animation.core.Animatable(0f) }
 
-    var selectedOption by remember { mutableStateOf<Option?>(null) }
-
-    val options = remember {
-        listOf<Option>(
-            // Using an illustrator colors and texts
-            Option("1", "Option 1", Color(0xFF1E40AF)),
-            Option("2", "Option 2", Color(0xFF0D9488)),
-            Option("3", "Option 3", Color(0xFF14B8A6)),
-            Option("4", "Option 4", Color(0xFF3B82F6)),
-        )
-    }
+    // Observe states in viewModel
+    val selectedOption by viewModel.selectedOption.collectAsState()
+    val options by viewModel.options.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -142,7 +135,7 @@ fun HomeScreen(
                 Button(
                     onClick = {
                         scope.launch {
-                            selectedOption = null
+                            viewModel.clearSelectedOption()
 
                             // draws to 3 to 6 laps and random stop
                             val randomTarget = rotation.value + (360f * (3..6).random()) + (0..360).random()
@@ -154,7 +147,8 @@ fun HomeScreen(
                                 )
                             )
 
-                            selectedOption = getSelectedOption(rotation.value, options)
+                            val winner = getSelectedOption(rotation.value, options)
+                            viewModel.onSpinFinished(winner)
                         }
                     },
                     modifier = Modifier
@@ -240,7 +234,7 @@ fun HomeScreen(
 
             selectedOption?.let {
                 ModalBottomSheet(
-                    onDismissRequest = { selectedOption = null }
+                    onDismissRequest = { viewModel.clearSelectedOption() }
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
@@ -282,7 +276,7 @@ fun HomeScreen(
                             )
                         }
                         OutlinedButton(
-                            onClick = {selectedOption = null},
+                            onClick = {viewModel.clearSelectedOption()},
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
