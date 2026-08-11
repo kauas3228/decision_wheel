@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import com.ikaroorg.decision_wheel.data.Model.Option
+import com.ikaroorg.decision_wheel.data.model.Option
 import kotlin.math.cos
 import kotlin.math.sin
 

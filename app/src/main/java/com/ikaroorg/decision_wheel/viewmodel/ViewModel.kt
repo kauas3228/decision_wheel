@@ -2,12 +2,14 @@ package com.ikaroorg.decision_wheel.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import com.ikaroorg.decision_wheel.data.Model.Option
+import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class ViewModel() : ViewModel(){
+class ViewModel(
+
+) : ViewModel(){
     private val _options = MutableStateFlow<List<Option>>(
         listOf<Option>(
             // Using an illustrator colors and texts

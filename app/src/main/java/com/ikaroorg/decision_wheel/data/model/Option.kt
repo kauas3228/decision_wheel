@@ -1,4 +1,4 @@
-package com.ikaroorg.decision_wheel.data.Model
+package com.ikaroorg.decision_wheel.data.model
 
 import androidx.compose.ui.graphics.Color
 

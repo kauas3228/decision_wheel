@@ -1,6 +1,6 @@
 package com.ikaroorg.decision_wheel.utils
 
-import com.ikaroorg.decision_wheel.data.Model.Option
+import com.ikaroorg.decision_wheel.data.model.Option
 
 fun getSelectedOption(
     rotationAngle: Float,
