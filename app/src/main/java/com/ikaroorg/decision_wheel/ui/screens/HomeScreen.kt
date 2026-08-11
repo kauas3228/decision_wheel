@@ -195,7 +195,7 @@ fun HomeScreen(
                         contentColor = MaterialTheme.colorScheme.onSurface,
                     ),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                    enabled = !rotation.isRunning && options.size > 1
+                    enabled = !rotation.isRunning
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
