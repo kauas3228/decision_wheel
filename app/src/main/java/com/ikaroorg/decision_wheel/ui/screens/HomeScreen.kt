@@ -61,7 +61,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: ViewModel = viewModel()
+    viewModel: ViewModel
 ) {
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()

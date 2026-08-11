@@ -1,19 +1,23 @@
 package com.ikaroorg.decision_wheel.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ikaroorg.decision_wheel.ui.screens.HomeScreen
+import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val viewModel: ViewModel = viewModel( factory = ViewModel.providerFactory())
 
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             HomeScreen(
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
     }
