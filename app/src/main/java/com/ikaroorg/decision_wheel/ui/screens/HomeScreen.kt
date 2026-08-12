@@ -49,7 +49,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
@@ -187,7 +186,7 @@ fun HomeScreen(
                     }
                 }
                 OutlinedButton(
-                    onClick = {},
+                    onClick = {navController.navigate("edit")},
                     modifier = Modifier
                         .fillMaxWidth(),
                     colors = ButtonDefaults.outlinedButtonColors(
