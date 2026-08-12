@@ -191,8 +191,8 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth(),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary,
                     ),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
                     enabled = !rotation.isRunning
@@ -205,7 +205,7 @@ fun HomeScreen(
                             painter = painterResource(R.drawable.pencil),
                             contentDescription = null,
                             modifier = Modifier.size(24.dp),
-                            tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
