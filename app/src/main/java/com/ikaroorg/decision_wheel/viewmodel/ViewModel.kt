@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.ikaroorg.decision_wheel.data.local.DataStoreManager
+import com.ikaroorg.decision_wheel.data.dao.OptionDao
+import com.ikaroorg.decision_wheel.data.local.AppDataBase
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,13 +15,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okio.Options
 import java.util.UUID
 
 class ViewModel(
-    private val dataStoreManager: DataStoreManager
+    private val optionDao: OptionDao
 ) : ViewModel(){
-    val options: StateFlow<List<Option>> = dataStoreManager.options.stateIn(
+    val options: StateFlow<List<Option>> = optionDao.getAllOptions().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
         initialValue = emptyList()
@@ -35,38 +35,30 @@ class ViewModel(
     }
 
     fun addOption(text: String, color: Color) {
-        val currentOptions = options.value.toMutableList()
-        val newOption = Option (
-            id = UUID.randomUUID().toString(),
-            text = text,
-            color = color
-        )
-
-        currentOptions.add(newOption)
-        updateOptions(currentOptions)
-    }
-
-    fun updateOptions(options: List<Option>){
         viewModelScope.launch {
-            dataStoreManager.saveOptions(options)
+            val newOption = Option (
+                id = UUID.randomUUID().toString(),
+                text = text,
+                color = color
+            )
+            optionDao.insertOption(newOption)
         }
     }
 
     fun deleteOption(optionId: String) {
-        val currentOptions = options.value.toMutableList()
-
-        currentOptions.removeAll{ it.id == optionId }
-        updateOptions(currentOptions)
+        viewModelScope.launch {
+            optionDao.deleteOption(optionId)
+        }
     }
+
     companion object {
         fun providerFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val context = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                     ?: throw IllegalStateException("Application context not found")
 
-                ViewModel(
-                    dataStoreManager = DataStoreManager(context)
-                )
+                val database = AppDataBase.getDatabase(context)
+                ViewModel(optionDao = database.optionDao())
             }
         }
     }
