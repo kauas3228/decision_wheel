@@ -1,12 +1,10 @@
 package com.ikaroorg.decision_wheel.ui.screens
 
-import com.ikaroorg.decision_wheel.R
-import androidx.compose.foundation.Image
+import  com.ikaroorg.decision_wheel.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,12 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.ikaroorg.decision_wheel.ui.components.OptionCard
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,6 +34,9 @@ fun EditOptionsScreen(
     navController: NavController,
     viewModel: ViewModel
 ) {
+
+    val options by viewModel.options.collectAsStateWithLifecycle()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -72,11 +75,47 @@ fun EditOptionsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Edit Options Screen")
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text(
+                    "CURRENT CONFIGURATION",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    "Strategy Wheel",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 28.sp
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                if(options.isEmpty()) {
+                    Text(
+                        "No options found",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontSize = 32.sp,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                } else {
+                    options.forEach { option ->
+                        OptionCard(
+                            option = option,
+                            onDelete = { viewModel.deleteOption(option.id) }
+                        )
+                    }
+                }
+            }
         }
     }
 }
