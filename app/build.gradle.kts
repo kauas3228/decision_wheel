@@ -44,6 +44,8 @@ android {
 dependencies {
     val nav_version = "2.9.8"
     val room_version = "2.8.4"
+    val colorpicker_version = "1.0.8"
+
 
     // Room dependecies
     implementation("androidx.room:room-runtime:${room_version}")
@@ -74,4 +76,6 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
 
+    // Color picker
+    implementation("com.github.skydoves:colorpicker-compose:${colorpicker_version}")
 }
