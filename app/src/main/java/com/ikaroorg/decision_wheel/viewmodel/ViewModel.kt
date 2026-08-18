@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ikaroorg.decision_wheel.data.dao.OptionDao
 import com.ikaroorg.decision_wheel.data.local.AppDataBase
+import com.ikaroorg.decision_wheel.data.local.DataStoreManager
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,12 +19,19 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 class ViewModel(
-    private val optionDao: OptionDao
+    private val optionDao: OptionDao,
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel(){
     val options: StateFlow<List<Option>> = optionDao.getAllOptions().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
         initialValue = emptyList()
+    )
+
+    val language: StateFlow<String> = dataStoreManager.language.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(3000),
+        initialValue = "English"
     )
     private val _selectedOption = MutableStateFlow<Option?>(null)
     val selectedOption: StateFlow<Option?> = _selectedOption.asStateFlow()
@@ -51,6 +59,12 @@ class ViewModel(
         }
     }
 
+    fun changeLanguage(language: String){
+        viewModelScope.launch {
+            dataStoreManager.saveLanguage(language)
+        }
+    }
+
     companion object {
         fun providerFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -58,7 +72,7 @@ class ViewModel(
                     ?: throw IllegalStateException("Application context not found")
 
                 val database = AppDataBase.getDatabase(context)
-                ViewModel(optionDao = database.optionDao())
+                ViewModel(optionDao = database.optionDao(), dataStoreManager = DataStoreManager(context))
             }
         }
     }
