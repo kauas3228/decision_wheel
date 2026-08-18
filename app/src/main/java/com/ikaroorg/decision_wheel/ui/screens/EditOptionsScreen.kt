@@ -1,6 +1,7 @@
 package com.ikaroorg.decision_wheel.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import  com.ikaroorg.decision_wheel.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -188,6 +191,22 @@ fun EditOptionsScreen(
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(16.dp)
                 ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Close the add option modal",
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(32.dp).clickable{
+                                tempColor = null
+                                tempText = null
+                                tempColorRex = null
+                                showAddOptionDialog = false
+                            }
+                        )
+                    }
                     Text(
                         "Create a new option to add in the wheel:",
                         style = MaterialTheme.typography.headlineSmall,
