@@ -269,6 +269,7 @@ fun EditOptionsScreen(
                             },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
+                            enabled = tempText?.isEmpty() == false
                         ) {
                             Text(
                                 "Add Option",
