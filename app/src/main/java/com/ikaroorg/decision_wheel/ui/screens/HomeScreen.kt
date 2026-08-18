@@ -204,7 +204,7 @@ fun HomeScreen(
                             painter = painterResource(R.drawable.pencil),
                             contentDescription = null,
                             modifier = Modifier.size(24.dp),
-                            tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondary
+                            tint = MaterialTheme.colorScheme.onSecondary
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
