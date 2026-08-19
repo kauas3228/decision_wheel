@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -78,13 +79,13 @@ fun HomeScreen(
                     title = {
                         Column {
                             Text(
-                                "Decision Wheel",
+                                stringResource(R.string.home_title),
                                 color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.headlineSmall
                             )
                             Spacer(Modifier.height(1.dp))
                             Text(
-                                "Make your choice",
+                                stringResource(R.string.home_subtitle),
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 style = MaterialTheme.typography.labelLarge,
                                 fontWeight = FontWeight.Medium
@@ -98,7 +99,7 @@ fun HomeScreen(
                         IconButton(onClick = {}) {
                             Image(
                                 painter = painterResource(R.drawable.logo),
-                                contentDescription = "Logo Application",
+                                contentDescription = stringResource(R.string.logo_desc),
                                 modifier = Modifier.size(36.dp)
                             )
                         }
@@ -180,7 +181,7 @@ fun HomeScreen(
                         )
                         Spacer(Modifier.width(6.dp))
                         Text(
-                            "SPIN",
+                            stringResource(R.string.spin),
                             style = MaterialTheme.typography.titleLarge
                         )
                     }
@@ -208,7 +209,7 @@ fun HomeScreen(
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            "Edit options",
+                            stringResource(R.string.edit_options),
                             style = MaterialTheme.typography.titleLarge,
                             fontSize = 18.sp
                         )
@@ -225,7 +226,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    "announcement",
+                    stringResource(R.string.announcement),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -246,7 +247,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                "RESULT",
+                                stringResource(R.string.result),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -269,7 +270,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.party_horn),
-                                contentDescription = "party horn symbolizing that the draw has been completed",
+                                contentDescription = stringResource(R.string.party_horn_desc),
                                 modifier = Modifier.size(64.dp),
                                 tint = MaterialTheme.colorScheme.primary
                             )
@@ -298,7 +299,7 @@ fun HomeScreen(
                                 )
                                 Spacer(Modifier.width(12.dp))
                                 Text(
-                                    "Spin again",
+                                    stringResource(R.string.spin_again),
                                     style = MaterialTheme.typography.titleLarge,
                                     fontSize = 18.sp
                                 )

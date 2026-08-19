@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ikaroorg.decision_wheel.ui.screens.EditOptionsScreen
 import com.ikaroorg.decision_wheel.ui.screens.HomeScreen
+import com.ikaroorg.decision_wheel.ui.screens.SelectLanguageScreen
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 
 @Composable
@@ -25,6 +26,12 @@ fun AppNavigation() {
             EditOptionsScreen(
                 navController = navController,
                 viewModel = viewModel
+            )
+        }
+        composable("selectLanguage") {
+            SelectLanguageScreen(
+                viewModel = viewModel,
+                navController = navController
             )
         }
     }

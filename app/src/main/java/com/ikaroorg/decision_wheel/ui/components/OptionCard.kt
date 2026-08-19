@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.data.model.Option
@@ -72,7 +73,7 @@ fun OptionCard(
         ) {
             Icon(
                 painter = painterResource(R.drawable.trash),
-                contentDescription = "Delete ${option.text}",
+                contentDescription = stringResource(R.string.delete_option_desc, option.text),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(32.dp)
             )
@@ -84,13 +85,13 @@ fun OptionCard(
             onDismissRequest = {showAlertDelete = false},
             title = {
                 Text(
-                    "Do you really want to delete this option?",
+                    stringResource(R.string.delete_confirm_title),
                     style = MaterialTheme.typography.titleLarge
                 )
             },
             text = {
                 Text(
-                    "If you delete this option, you will have to create it again if you want to reuse it.",
+                    stringResource(R.string.delete_confirm_text),
                     style = MaterialTheme.typography.labelLarge
                 )
             },
@@ -102,7 +103,7 @@ fun OptionCard(
                     }
                 ) {
                     Text(
-                        "Confirm",
+                        stringResource(R.string.confirm),
                         style = MaterialTheme.typography.titleMedium,
                         color = Success
                     )
@@ -113,7 +114,7 @@ fun OptionCard(
                     onClick = { showAlertDelete = false }
                 ) {
                     Text(
-                        "Cancel",
+                        stringResource(R.string.cancel),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.error
                     )

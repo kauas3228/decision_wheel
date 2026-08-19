@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,7 +79,7 @@ fun EditOptionsScreen(
                     title = {
                         Column {
                             Text(
-                                "Edit Options",
+                                stringResource(R.string.edit_title),
                                 color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.headlineSmall
                             )
@@ -91,7 +92,7 @@ fun EditOptionsScreen(
                         IconButton(onClick = {navController.navigate("home")}) {
                             Icon(
                                 painter = painterResource(R.drawable.arrow_left),
-                                contentDescription = "Return to home screen",
+                                contentDescription = stringResource(R.string.back_desc),
                                 modifier = Modifier.size(28.dp),
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
@@ -117,12 +118,12 @@ fun EditOptionsScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
-                    "CURRENT CONFIGURATION",
+                    stringResource(R.string.current_config),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    "Strategy Wheel",
+                    stringResource(R.string.strategy_wheel),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 28.sp
@@ -135,7 +136,7 @@ fun EditOptionsScreen(
             ) {
                 if(options.isEmpty()) {
                     Text(
-                        "No options found",
+                        stringResource(R.string.no_options),
                         style = MaterialTheme.typography.headlineSmall,
                         fontSize = 32.sp,
                         color = MaterialTheme.colorScheme.error
@@ -162,11 +163,11 @@ fun EditOptionsScreen(
                     ){
                         Icon(
                             painter = painterResource(R.drawable.plus_circle),
-                            contentDescription = "Add new option",
+                            contentDescription = stringResource(R.string.add_new_option),
                             tint = MaterialTheme.colorScheme.onSecondary
                         )
                         Text(
-                            "Add new option",
+                            stringResource(R.string.add_new_option),
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onSecondary
                         )
@@ -197,7 +198,7 @@ fun EditOptionsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Close the add option modal",
+                            contentDescription = stringResource(R.string.close_modal_desc),
                             tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.size(32.dp).clickable{
                                 tempColor = null
@@ -208,7 +209,7 @@ fun EditOptionsScreen(
                         )
                     }
                     Text(
-                        "Create a new option to add in the wheel:",
+                        stringResource(R.string.create_option_title),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -270,7 +271,7 @@ fun EditOptionsScreen(
                         OutlinedTextField(
                             value = tempText ?: "",
                             onValueChange = { tempText = it },
-                            label = { Text("Option name") },
+                            label = { Text(stringResource(R.string.option_name_label)) },
                             modifier = Modifier.fillMaxWidth()
                         )
 
@@ -291,7 +292,7 @@ fun EditOptionsScreen(
                             enabled = tempText?.isEmpty() == false
                         ) {
                             Text(
-                                "Add Option",
+                                stringResource(R.string.add_option),
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }

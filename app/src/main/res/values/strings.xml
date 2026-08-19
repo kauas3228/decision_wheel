@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">decision_wheel</string>
+    <string name="app_name">Decision Wheel</string>
+    <string name="home_title">Decision Wheel</string>
+    <string name="home_subtitle">Make your choice</string>
+    <string name="logo_desc">Logo Application</string>
+    <string name="spin">SPIN</string>
+    <string name="edit_options">Edit options</string>
+    <string name="announcement">announcement</string>
+    <string name="result">RESULT</string>
+    <string name="party_horn_desc">party horn symbolizing that the draw has been completed</string>
+    <string name="spin_again">Spin again</string>
+
+    <string name="edit_title">Edit Options</string>
+    <string name="back_desc">Return to home screen</string>
+    <string name="current_config">CURRENT CONFIGURATION</string>
+    <string name="strategy_wheel">Strategy Wheel</string>
+    <string name="no_options">No options found</string>
+    <string name="add_new_option">Add new option</string>
+    <string name="close_modal_desc">Close the add option modal</string>
+    <string name="create_option_title">Create a new option to add in the wheel:</string>
+    <string name="option_name_label">Option name</string>
+    <string name="add_option">Add Option</string>
+
+    <string name="delete_option_desc">Delete %1$s</string>
+    <string name="delete_confirm_title">Do you really want to delete this option?</string>
+    <string name="delete_confirm_text">If you delete this option, you will have to create it again if you want to reuse it.</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="select_language">Select your language</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
+    <string name="brazil_flag_desc">Brazil Flag</string>
+    <string name="spanish_flag_desc">Spanish Flag</string>
+    <string name="eua_flag_desc">EUA Flag</string>
+    <string name="confirm_language">Confirm Language</string>
 </resources>

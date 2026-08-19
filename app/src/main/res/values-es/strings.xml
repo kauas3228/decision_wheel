@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Rueda de Decisión</string>
+    <string name="home_title">Rueda de Decisión</string>
+    <string name="home_subtitle">Haz tu elección</string>
+    <string name="logo_desc">Logo de la Aplicación</string>
+    <string name="spin">GIRAR</string>
+    <string name="edit_options">Editar opciones</string>
+    <string name="announcement">anuncio</string>
+    <string name="result">RESULTADO</string>
+    <string name="party_horn_desc">corneta de fiesta simbolizando que el sorteo se ha completado</string>
+    <string name="spin_again">Girar de nuevo</string>
+
+    <string name="edit_title">Editar Opciones</string>
+    <string name="back_desc">Volver a la pantalla de inicio</string>
+    <string name="current_config">CONFIGURACIÓN ACTUAL</string>
+    <string name="strategy_wheel">Rueda de Estrategia</string>
+    <string name="no_options">No se encontraron opciones</string>
+    <string name="add_new_option">Agregar nueva opción</string>
+    <string name="close_modal_desc">Cerrar el modal de agregar opción</string>
+    <string name="create_option_title">Crea una nueva opción para agregar a la rueda:</string>
+    <string name="option_name_label">Nombre de la opción</string>
+    <string name="add_option">Agregar Opción</string>
+
+    <string name="delete_option_desc">Eliminar %1$s</string>
+    <string name="delete_confirm_title">¿Realmente quieres eliminar esta opción?</string>
+    <string name="delete_confirm_text">Si eliminas esta opción, tendrás que crearla de nuevo si quieres reutilizarla.</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="select_language">Selecciona tu idioma</string>
+    <string name="portuguese">Portugués</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
+    <string name="brazil_flag_desc">Bandera de Brasil</string>
+    <string name="spanish_flag_desc">Bandera de España</string>
+    <string name="eua_flag_desc">Bandera de EE. UU.</string>
+    <string name="confirm_language">Confirmar Idioma</string>
+</resources>

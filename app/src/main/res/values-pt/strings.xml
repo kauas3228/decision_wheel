@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Roda da Decisão</string>
+    <string name="home_title">Roda da Decisão</string>
+    <string name="home_subtitle">Faça sua escolha</string>
+    <string name="logo_desc">Logo do Aplicativo</string>
+    <string name="spin">GIRAR</string>
+    <string name="edit_options">Editar opções</string>
+    <string name="announcement">anúncio</string>
+    <string name="result">RESULTADO</string>
+    <string name="party_horn_desc">corneta de festa simbolizando que o sorteio foi concluído</string>
+    <string name="spin_again">Girar novamente</string>
+
+    <string name="edit_title">Editar Opções</string>
+    <string name="back_desc">Voltar para a tela inicial</string>
+    <string name="current_config">CONFIGURAÇÃO ATUAL</string>
+    <string name="strategy_wheel">Roda de Estratégia</string>
+    <string name="no_options">Nenhuma opção encontrada</string>
+    <string name="add_new_option">Adicionar nova opção</string>
+    <string name="close_modal_desc">Fechar o modal de adicionar opção</string>
+    <string name="create_option_title">Crie uma nova opção para adicionar na roda:</string>
+    <string name="option_name_label">Nome da opção</string>
+    <string name="add_option">Adicionar Opção</string>
+
+    <string name="delete_option_desc">Excluir %1$s</string>
+    <string name="delete_confirm_title">Você realmente deseja excluir esta opção?</string>
+    <string name="delete_confirm_text">Se você excluir esta opção, terá que criá-la novamente se quiser reutilizá-la.</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="select_language">Selecione seu idioma</string>
+    <string name="portuguese">Português</string>
+    <string name="spanish">Espanhol</string>
+    <string name="english">Inglês</string>
+    <string name="brazil_flag_desc">Bandeira do Brasil</string>
+    <string name="spanish_flag_desc">Bandeira da Espanha</string>
+    <string name="eua_flag_desc">Bandeira dos EUA</string>
+    <string name="confirm_language">Confirmar Idioma</string>
+</resources>
