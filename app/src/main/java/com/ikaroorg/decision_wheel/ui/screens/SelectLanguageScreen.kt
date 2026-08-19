@@ -136,7 +136,6 @@ fun SelectLanguageScreen(
             Spacer(Modifier.height(24.dp))
             Button(
                 onClick = {
-                    viewModel.saveIsSelectedLanguage(true)
                     navController.navigate("home") },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Success,
