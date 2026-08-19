@@ -35,4 +35,5 @@
     <string name="spanish_flag_desc">Bandera de España</string>
     <string name="eua_flag_desc">Bandera de EE. UU.</string>
     <string name="confirm_language">Confirmar Idioma</string>
+    <string name="loading">Cargando</string>
 </resources>

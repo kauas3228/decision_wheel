@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ikaroorg.decision_wheel.ui.screens.EditOptionsScreen
 import com.ikaroorg.decision_wheel.ui.screens.HomeScreen
+import com.ikaroorg.decision_wheel.ui.screens.LoadingScreen
 import com.ikaroorg.decision_wheel.ui.screens.SelectLanguageScreen
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 
@@ -33,6 +34,9 @@ fun AppNavigation() {
                 viewModel = viewModel,
                 navController = navController
             )
+        }
+        composable("loading") {
+            LoadingScreen()
         }
     }
 }
