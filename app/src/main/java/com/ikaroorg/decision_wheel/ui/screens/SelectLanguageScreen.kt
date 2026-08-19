@@ -19,15 +19,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.ui.theme.Success
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
@@ -35,9 +36,9 @@ import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 @Composable
 fun SelectLanguageScreen(
     viewModel: ViewModel,
-    navController: NavController
 ){
-    val language by viewModel.language.collectAsState()
+
+    var tempLanguage by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -64,11 +65,11 @@ fun SelectLanguageScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedButton(
-                    onClick = { viewModel.changeLanguage("Portuguese") },
+                    onClick = { tempLanguage = "Portuguese" },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(language == "Portuguese") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(tempLanguage == "Portuguese") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(language == "Portuguese") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(tempLanguage == "Portuguese") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -87,11 +88,11 @@ fun SelectLanguageScreen(
                     }
                 }
                 OutlinedButton(
-                    onClick = { viewModel.changeLanguage("Spanish") },
+                    onClick = { tempLanguage = "Spanish" },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(language == "Spanish") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(tempLanguage == "Spanish") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(language == "Spanish") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(tempLanguage == "Spanish") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -110,11 +111,11 @@ fun SelectLanguageScreen(
                     }
                 }
                 OutlinedButton(
-                    onClick = { viewModel.changeLanguage("English") },
+                    onClick = { tempLanguage = "English" },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(language == "English") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(tempLanguage == "English") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(language == "English") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(tempLanguage == "English") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -135,15 +136,15 @@ fun SelectLanguageScreen(
             }
             Spacer(Modifier.height(24.dp))
             Button(
-                onClick = {
-                    navController.navigate("home") },
+                onClick = { viewModel.changeLanguage(tempLanguage ?: "") },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Success,
                     contentColor = Color(0xffffffff)
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                enabled = tempLanguage.isNullOrEmpty().not()
             ) {
                 Text(
                     stringResource(R.string.confirm_language),

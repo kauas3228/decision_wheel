@@ -9,11 +9,13 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ikaroorg.decision_wheel.data.dao.OptionDao
 import com.ikaroorg.decision_wheel.data.local.AppDataBase
 import com.ikaroorg.decision_wheel.data.local.DataStoreManager
+import com.ikaroorg.decision_wheel.data.model.LanguageState
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -28,11 +30,12 @@ class ViewModel(
         initialValue = emptyList()
     )
 
-    val language: StateFlow<String> = dataStoreManager.language.stateIn(
+    val language: StateFlow<String?> = dataStoreManager.language.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
-        initialValue = "English"
+        initialValue = null
     )
+
     private val _selectedOption = MutableStateFlow<Option?>(null)
     val selectedOption: StateFlow<Option?> = _selectedOption.asStateFlow()
     fun onSpinFinished(result: Option?) {
@@ -62,9 +65,21 @@ class ViewModel(
     fun changeLanguage(language: String){
         viewModelScope.launch {
             dataStoreManager.saveLanguage(language)
+            dataStoreManager.saveSelectedLanguage(true)
         }
     }
 
+    val languageState: StateFlow<LanguageState> = dataStoreManager.isSelectedLanguage.map { isSelected ->
+        if (isSelected) {
+            LanguageState.Selected
+        } else {
+            LanguageState.NotSelected
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(3000),
+        initialValue = LanguageState.Loading
+    )
     companion object {
         fun providerFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
