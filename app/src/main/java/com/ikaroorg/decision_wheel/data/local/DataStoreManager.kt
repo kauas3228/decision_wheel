@@ -15,15 +15,15 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class DataStoreManager(private val context: Context) {
     companion object {
         val LANGUAGE = stringPreferencesKey("language")
-        val IS_SELECTED_LANGUAGE = booleanPreferencesKey("is_selected_language")
+        val IS_INITIALIZED = booleanPreferencesKey("is_initialized")
     }
 
-    val language: Flow<String?> = context.dataStore.data.map { preferences ->
-        preferences[LANGUAGE]
+    val language: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[LANGUAGE] ?: "English"
     }
 
-    val isSelectedLanguage: Flow<Boolean> = context.dataStore.data.map {preferences ->
-        preferences[IS_SELECTED_LANGUAGE] ?: false
+    val isInitialized: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[IS_INITIALIZED] ?: false
     }
 
     suspend fun saveLanguage(language: String) {
@@ -32,9 +32,9 @@ class DataStoreManager(private val context: Context) {
         }
     }
 
-    suspend fun saveSelectedLanguage(isSelected: Boolean) {
+    suspend fun saveIsInitialized(isSelected: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[IS_SELECTED_LANGUAGE] = isSelected
+            preferences[IS_INITIALIZED] = isSelected
         }
     }
 }

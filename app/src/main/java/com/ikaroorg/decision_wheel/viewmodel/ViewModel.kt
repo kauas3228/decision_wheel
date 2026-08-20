@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ikaroorg.decision_wheel.data.dao.OptionDao
 import com.ikaroorg.decision_wheel.data.local.AppDataBase
 import com.ikaroorg.decision_wheel.data.local.DataStoreManager
-import com.ikaroorg.decision_wheel.data.model.LanguageState
+import com.ikaroorg.decision_wheel.data.model.InitializedState
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,10 +30,10 @@ class ViewModel(
         initialValue = emptyList()
     )
 
-    val language: StateFlow<String?> = dataStoreManager.language.stateIn(
+    val language: StateFlow<String> = dataStoreManager.language.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
-        initialValue = null
+        initialValue = "English"
     )
 
     private val _selectedOption = MutableStateFlow<Option?>(null)
@@ -65,20 +65,24 @@ class ViewModel(
     fun changeLanguage(language: String){
         viewModelScope.launch {
             dataStoreManager.saveLanguage(language)
-            dataStoreManager.saveSelectedLanguage(true)
         }
     }
 
-    val languageState: StateFlow<LanguageState> = dataStoreManager.isSelectedLanguage.map { isSelected ->
+    fun saveIsInitialized() {
+        viewModelScope.launch {
+            dataStoreManager.saveIsInitialized(true)
+        }
+    }
+    val initializedState: StateFlow<InitializedState> = dataStoreManager.isInitialized.map { isSelected ->
         if (isSelected) {
-            LanguageState.Selected
+            InitializedState.Selected
         } else {
-            LanguageState.NotSelected
+            InitializedState.NotSelected
         }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
-        initialValue = LanguageState.Loading
+        initialValue = InitializedState.Loading
     )
     companion object {
         fun providerFactory(): ViewModelProvider.Factory = viewModelFactory {

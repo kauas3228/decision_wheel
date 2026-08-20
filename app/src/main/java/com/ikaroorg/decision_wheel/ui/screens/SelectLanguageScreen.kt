@@ -21,9 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -136,7 +133,7 @@ fun SelectLanguageScreen(
             }
             Spacer(Modifier.height(24.dp))
             Button(
-                onClick = {  },
+                onClick = { viewModel.saveIsInitialized() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Success,
                     contentColor = Color(0xffffffff)
@@ -144,7 +141,7 @@ fun SelectLanguageScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                enabled = (language?.isNotEmpty() ?: "") as Boolean
+                enabled = language.isNotEmpty()
             ) {
                 Text(
                     stringResource(R.string.confirm_language),

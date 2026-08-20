@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ikaroorg.decision_wheel.data.model.LanguageState
+import com.ikaroorg.decision_wheel.data.model.InitializedState
 import com.ikaroorg.decision_wheel.ui.screens.EditOptionsScreen
 import com.ikaroorg.decision_wheel.ui.screens.HomeScreen
 import com.ikaroorg.decision_wheel.ui.screens.LoadingScreen
@@ -24,7 +24,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val viewModel: ViewModel = viewModel( factory = ViewModel.providerFactory())
 
-    val languageState by viewModel.languageState.collectAsState()
+    val languageState by viewModel.initializedState.collectAsState()
     val language by viewModel.language.collectAsState()
 
     val currentContext = LocalContext.current
@@ -38,9 +38,9 @@ fun AppNavigation() {
         NavHost(
             navController = navController,
             startDestination = when (languageState) {
-                is LanguageState.Loading -> "loading"
-                is LanguageState.Selected -> "selectLanguage"
-                is LanguageState.NotSelected -> "selectLanguage"
+                is InitializedState.Loading -> "loading"
+                is InitializedState.Selected -> "home"
+                is InitializedState.NotSelected -> "selectLanguage"
             }
         ) {
             composable("home") {
