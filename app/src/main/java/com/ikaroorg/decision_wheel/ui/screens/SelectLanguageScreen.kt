@@ -19,6 +19,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,8 +38,7 @@ import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 fun SelectLanguageScreen(
     viewModel: ViewModel,
 ){
-
-    var tempLanguage by remember { mutableStateOf<String?>(null) }
+    val language by viewModel.language.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -65,11 +65,11 @@ fun SelectLanguageScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedButton(
-                    onClick = { tempLanguage = "Portuguese" },
+                    onClick = { viewModel.changeLanguage("Portuguese") },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(tempLanguage == "Portuguese") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(language == "Portuguese") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(tempLanguage == "Portuguese") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(language == "Portuguese") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -88,11 +88,11 @@ fun SelectLanguageScreen(
                     }
                 }
                 OutlinedButton(
-                    onClick = { tempLanguage = "Spanish" },
+                    onClick = { viewModel.changeLanguage("Spanish") },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(tempLanguage == "Spanish") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(language == "Spanish") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(tempLanguage == "Spanish") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(language == "Spanish") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -111,11 +111,11 @@ fun SelectLanguageScreen(
                     }
                 }
                 OutlinedButton(
-                    onClick = { tempLanguage = "English" },
+                    onClick = { viewModel.changeLanguage("English") },
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(3.dp, color = if(tempLanguage == "English") Success else MaterialTheme.colorScheme.outline),
+                    border = BorderStroke(3.dp, color = if(language == "English") Success else MaterialTheme.colorScheme.outline),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = if(tempLanguage == "English") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
+                        containerColor = if(language == "English") Success.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface,
                     )
                 ) {
                     Row(
@@ -136,7 +136,7 @@ fun SelectLanguageScreen(
             }
             Spacer(Modifier.height(24.dp))
             Button(
-                onClick = { viewModel.changeLanguage(tempLanguage ?: "") },
+                onClick = {  },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Success,
                     contentColor = Color(0xffffffff)
@@ -144,7 +144,7 @@ fun SelectLanguageScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                enabled = tempLanguage.isNullOrEmpty().not()
+                enabled = (language?.isNotEmpty() ?: "") as Boolean
             ) {
                 Text(
                     stringResource(R.string.confirm_language),
