@@ -71,6 +71,12 @@ fun EditOptionsScreen(
     var tempColorRex by remember { mutableStateOf<String?>(null) }
     var showAddOptionDialog by remember { mutableStateOf(false) }
 
+    // Dialog texts
+    val closeModalDesc = stringResource(R.string.close_modal_desc)
+    val createOptionTitle = stringResource(R.string.create_option_title)
+    val optionNameLabel = stringResource(R.string.option_name_label)
+    val addOptionText = stringResource(R.string.add_option)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -198,7 +204,7 @@ fun EditOptionsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(R.string.close_modal_desc),
+                            contentDescription = closeModalDesc,
                             tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.size(32.dp).clickable{
                                 tempColor = null
@@ -209,7 +215,7 @@ fun EditOptionsScreen(
                         )
                     }
                     Text(
-                        stringResource(R.string.create_option_title),
+                        createOptionTitle,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -271,7 +277,7 @@ fun EditOptionsScreen(
                         OutlinedTextField(
                             value = tempText ?: "",
                             onValueChange = { tempText = it },
-                            label = { Text(stringResource(R.string.option_name_label)) },
+                            label = { Text(optionNameLabel) },
                             modifier = Modifier.fillMaxWidth()
                         )
 
@@ -292,7 +298,7 @@ fun EditOptionsScreen(
                             enabled = tempText?.isEmpty() == false
                         ) {
                             Text(
-                                stringResource(R.string.add_option),
+                                addOptionText,
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }

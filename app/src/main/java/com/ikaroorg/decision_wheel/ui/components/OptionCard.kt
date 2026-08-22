@@ -40,6 +40,13 @@ fun OptionCard(
 ){
     var showAlertDelete by remember { mutableStateOf(false) }
 
+
+    // Dialog texts
+    val deleteConfirmTitle = stringResource(R.string.delete_confirm_title)
+    val deleteConfirmText = stringResource(R.string.delete_confirm_text)
+    val confirmText = stringResource(R.string.confirm)
+    val cancelText = stringResource(R.string.cancel)
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -85,13 +92,13 @@ fun OptionCard(
             onDismissRequest = {showAlertDelete = false},
             title = {
                 Text(
-                    stringResource(R.string.delete_confirm_title),
+                    deleteConfirmTitle,
                     style = MaterialTheme.typography.titleLarge
                 )
             },
             text = {
                 Text(
-                    stringResource(R.string.delete_confirm_text),
+                    deleteConfirmText,
                     style = MaterialTheme.typography.labelLarge
                 )
             },
@@ -103,7 +110,7 @@ fun OptionCard(
                     }
                 ) {
                     Text(
-                        stringResource(R.string.confirm),
+                        confirmText,
                         style = MaterialTheme.typography.titleMedium,
                         color = Success
                     )
@@ -114,7 +121,7 @@ fun OptionCard(
                     onClick = { showAlertDelete = false }
                 ) {
                     Text(
-                        stringResource(R.string.cancel),
+                        cancelText,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.error
                     )
