@@ -10,6 +10,7 @@
     <string name="party_horn_desc">party horn symbolizing that the draw has been completed</string>
     <string name="spin_again">Spin again</string>
 
+    <string name="no_options_in_wheel">Add at least two options to draw from</string>
     <string name="edit_title">Edit Options</string>
     <string name="back_desc">Return to home screen</string>
     <string name="current_config">CURRENT CONFIGURATION</string>

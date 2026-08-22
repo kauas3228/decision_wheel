@@ -10,6 +10,7 @@
     <string name="party_horn_desc">corneta de fiesta simbolizando que el sorteo se ha completado</string>
     <string name="spin_again">Girar de nuevo</string>
 
+    <string name="no_options_in_wheel">Añadir opciones para sortear</string>
     <string name="edit_title">Editar Opciones</string>
     <string name="back_desc">Volver a la pantalla de inicio</string>
     <string name="current_config">CONFIGURACIÓN ACTUAL</string>

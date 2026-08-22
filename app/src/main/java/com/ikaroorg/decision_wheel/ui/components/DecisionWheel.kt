@@ -15,8 +15,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlin.math.cos
 import kotlin.math.sin
@@ -26,12 +34,15 @@ fun DecisionWheel(
     options: List<Option>,
     rotateAngle: Float,
 ) {
+    val textMeasure = rememberTextMeasurer()
+
     val colorScheme = MaterialTheme.colorScheme
 
     val outline = colorScheme.outline
     val surface = colorScheme.surface
     val onBackground = colorScheme.onBackground
 
+    val text = stringResource(R.string.no_options_in_wheel)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,18 +68,26 @@ fun DecisionWheel(
                 style = Stroke(width = 5.dp.toPx())
             )
 
-            if (options.isEmpty()) {
-                drawContext.canvas.nativeCanvas.drawText(
-                    "Add options to draw from",
-                    center.x,
-                    center.y,
-                    Paint().apply {
-                        color = onBackground.toArgb()
-                        textSize = 18.dp.toPx()
-                        textAlign = Paint.Align.CENTER
-                        typeface = Typeface.DEFAULT_BOLD
-                        isAntiAlias = true
-                    }
+            if (options.size < 2) {
+                val measuredText = textMeasure.measure(
+                    text = text,
+                    style = TextStyle(
+                        color = onBackground,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    ),
+                    constraints = Constraints(maxWidth = (size.width - (12.dp.toPx() * 2)).toInt().coerceAtLeast(0))
+                )
+
+                val topLeftOffSet = Offset(
+                    x = center.x - (measuredText.size.width / 2f),
+                    y = center.y - (measuredText.size.height / 2f)
+                )
+
+                drawText(
+                    textLayoutResult = measuredText,
+                    topLeft = topLeftOffSet
                 )
 
                 return@Canvas
