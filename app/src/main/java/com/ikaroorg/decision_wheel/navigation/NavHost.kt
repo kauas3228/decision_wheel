@@ -10,11 +10,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ikaroorg.decision_wheel.data.model.InitializedState
+import com.ikaroorg.decision_wheel.data.model.ApplicationStats
 import com.ikaroorg.decision_wheel.ui.screens.EditOptionsScreen
 import com.ikaroorg.decision_wheel.ui.screens.HomeScreen
 import com.ikaroorg.decision_wheel.ui.screens.LoadingScreen
 import com.ikaroorg.decision_wheel.ui.screens.SelectLanguageScreen
+import com.ikaroorg.decision_wheel.ui.screens.WelcomeScreen
 import com.ikaroorg.decision_wheel.utils.createLocaleContext
 import com.ikaroorg.decision_wheel.utils.toLanguageCode
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
@@ -24,7 +25,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val viewModel: ViewModel = viewModel( factory = ViewModel.providerFactory())
 
-    val languageState by viewModel.initializedState.collectAsState()
+    val applicationStats by viewModel.applicationStats.collectAsState()
     val language by viewModel.language.collectAsState()
 
     val currentContext = LocalContext.current
@@ -37,10 +38,10 @@ fun AppNavigation() {
     CompositionLocalProvider(LocalContext provides localizedContext) {
         NavHost(
             navController = navController,
-            startDestination = when (languageState) {
-                is InitializedState.Loading -> "loading"
-                is InitializedState.Selected -> "home"
-                is InitializedState.NotSelected -> "selectLanguage"
+            startDestination = when (applicationStats) {
+                is ApplicationStats.Loading -> "loading"
+                is ApplicationStats.Started -> "home"
+                is ApplicationStats.NotStarted -> "selectLanguage"
             }
         ) {
             composable("home") {
@@ -58,10 +59,16 @@ fun AppNavigation() {
             composable("selectLanguage") {
                 SelectLanguageScreen(
                     viewModel = viewModel,
+                    navController = navController
                 )
             }
             composable("loading") {
                 LoadingScreen()
+            }
+            composable("welcome") {
+                WelcomeScreen(
+                    viewModel = viewModel
+                )
             }
         }
     }

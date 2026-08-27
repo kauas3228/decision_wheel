@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ikaroorg.decision_wheel.data.dao.OptionDao
 import com.ikaroorg.decision_wheel.data.local.AppDataBase
 import com.ikaroorg.decision_wheel.data.local.DataStoreManager
-import com.ikaroorg.decision_wheel.data.model.InitializedState
+import com.ikaroorg.decision_wheel.data.model.ApplicationStats
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -73,16 +73,16 @@ class ViewModel(
             dataStoreManager.saveIsInitialized(true)
         }
     }
-    val initializedState: StateFlow<InitializedState> = dataStoreManager.isInitialized.map { isSelected ->
+    val applicationStats: StateFlow<ApplicationStats> = dataStoreManager.isInitialized.map { isSelected ->
         if (isSelected) {
-            InitializedState.Selected
+            ApplicationStats.Started
         } else {
-            InitializedState.NotSelected
+            ApplicationStats.NotStarted
         }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
-        initialValue = InitializedState.Loading
+        initialValue = ApplicationStats.Loading
     )
     companion object {
         fun providerFactory(): ViewModelProvider.Factory = viewModelFactory {

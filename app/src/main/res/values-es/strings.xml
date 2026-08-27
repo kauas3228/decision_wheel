@@ -37,4 +37,10 @@
     <string name="eua_flag_desc">Bandera de EE. UU.</string>
     <string name="confirm_language">Confirmar Idioma</string>
     <string name="loading">Cargando</string>
+
+    <string name="welcome_title">Bienvenido</string>
+    <string name="welcome_subtitle_1">¡Deja que se tome una decisión por ti!</string>
+    <string name="welcome_subtitle_2">¡Gira la rueda y diviértete eligiendo!</string>
+    <string name="get_started">Empecemos.</string>
+    <string name="arrow_right_desc">flecha a la derecha para iniciar la aplicación</string>
 </resources>

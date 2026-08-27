@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.ui.theme.Success
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
@@ -34,6 +35,7 @@ import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 @Composable
 fun SelectLanguageScreen(
     viewModel: ViewModel,
+    navController: NavController
 ){
     val language by viewModel.language.collectAsState()
 
@@ -133,7 +135,7 @@ fun SelectLanguageScreen(
             }
             Spacer(Modifier.height(24.dp))
             Button(
-                onClick = { viewModel.saveIsInitialized() },
+                onClick = { navController.navigate("welcome") },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Success,
                     contentColor = Color(0xffffffff)

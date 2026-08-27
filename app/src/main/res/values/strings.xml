@@ -37,4 +37,10 @@
     <string name="eua_flag_desc">EUA Flag</string>
     <string name="confirm_language">Confirm Language</string>
     <string name="loading">Loading</string>
+
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_subtitle_1">Let a decision be made for you!</string>
+    <string name="welcome_subtitle_2">Spin the wheel and have fun choosing!</string>
+    <string name="get_started">Let\'s get started.</string>
+    <string name="arrow_right_desc">arrow right to initialize app</string>
 </resources>
