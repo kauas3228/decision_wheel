@@ -65,7 +65,7 @@ fun OptionCard(
             Box(
                 modifier = Modifier
                     .size(16.dp)
-                    .background(option.color, shape = CircleShape),
+                    .background(option.colorValue, shape = CircleShape),
             ){}
             Text(
                 option.text,

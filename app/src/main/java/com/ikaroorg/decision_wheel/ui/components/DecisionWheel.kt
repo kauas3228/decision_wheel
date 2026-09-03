@@ -101,7 +101,7 @@ fun DecisionWheel(
                 val startAngle = (index * sweepAngle) + rotateAngle
 
                 drawArc(
-                    color = option.color,
+                    color = option.colorValue,
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = true,

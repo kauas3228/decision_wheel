@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.ikaroorg.decision_wheel.data.dao.ListOptionDao
 import com.ikaroorg.decision_wheel.data.dao.OptionDao
 import com.ikaroorg.decision_wheel.data.local.AppDataBase
 import com.ikaroorg.decision_wheel.data.local.DataStoreManager
 import com.ikaroorg.decision_wheel.data.model.ApplicationStats
+import com.ikaroorg.decision_wheel.data.model.ListOptions
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,6 +24,7 @@ import java.util.UUID
 
 class ViewModel(
     private val optionDao: OptionDao,
+    private val listOptionsDao: ListOptionDao,
     private val dataStoreManager: DataStoreManager
 ) : ViewModel(){
     val options: StateFlow<List<Option>> = optionDao.getAllOptions().stateIn(
@@ -34,6 +37,12 @@ class ViewModel(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(3000),
         initialValue = "English"
+    )
+
+    val savedListOptions: StateFlow<List<ListOptions>> = listOptionsDao.getAllSavedLists().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(3000),
+        initialValue = emptyList()
     )
 
     private val _selectedOption = MutableStateFlow<Option?>(null)
@@ -50,7 +59,7 @@ class ViewModel(
             val newOption = Option (
                 id = UUID.randomUUID().toString(),
                 text = text,
-                color = color
+                color = color.value.toLong()
             )
             optionDao.insertOption(newOption)
         }
@@ -59,6 +68,29 @@ class ViewModel(
     fun deleteOption(optionId: String) {
         viewModelScope.launch {
             optionDao.deleteOption(optionId)
+        }
+    }
+
+    fun deleteAllOptions() {
+        viewModelScope.launch {
+            optionDao.deleteAllOptions()
+        }
+    }
+
+    fun addListOptions(options: List<Option>, listTitle: String){
+        viewModelScope.launch {
+            val options = ListOptions(
+                id = UUID.randomUUID().toString(),
+                title = listTitle,
+                options = options
+            )
+            listOptionsDao.saveList(options)
+        }
+    }
+
+    fun deleteListOption(listId: String) {
+        viewModelScope.launch {
+            listOptionsDao.deleteListById(listId)
         }
     }
 
@@ -91,7 +123,7 @@ class ViewModel(
                     ?: throw IllegalStateException("Application context not found")
 
                 val database = AppDataBase.getDatabase(context)
-                ViewModel(optionDao = database.optionDao(), dataStoreManager = DataStoreManager(context))
+                ViewModel(optionDao = database.optionDao(), listOptionsDao = database.listOptionDao() ,dataStoreManager = DataStoreManager(context))
             }
         }
     }

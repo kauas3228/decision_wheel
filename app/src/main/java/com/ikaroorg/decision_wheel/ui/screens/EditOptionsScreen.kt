@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -55,6 +57,7 @@ import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import com.ikaroorg.decision_wheel.ui.components.OptionCard
 import com.ikaroorg.decision_wheel.ui.theme.Primary
+import com.ikaroorg.decision_wheel.ui.theme.Success
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,12 +75,14 @@ fun EditOptionsScreen(
     var tempColorRex by remember { mutableStateOf<String?>(null) }
     var showAddOptionDialog by remember { mutableStateOf(false) }
 
-    // Dialog texts
+    // Add Option Dialog texts
     val closeModalDesc = stringResource(R.string.close_modal_desc)
     val createOptionTitle = stringResource(R.string.create_option_title)
     val optionNameLabel = stringResource(R.string.option_name_label)
     val addOptionText = stringResource(R.string.add_option)
 
+    // Save Options Dialog
+    var showSaveOptionDialog by remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -165,32 +170,66 @@ fun EditOptionsScreen(
                     }
                 }
             }
-            Button(
-                onClick = { showAddOptionDialog = true },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
-                )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ){
-                    Icon(
-                        painter = painterResource(R.drawable.plus_circle),
-                        contentDescription = stringResource(R.string.add_new_option),
-                        tint = MaterialTheme.colorScheme.onSecondary
+                Button(
+                    onClick = { showAddOptionDialog = true },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary
                     )
-                    Text(
-                        stringResource(R.string.add_new_option),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSecondary
-                    )
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ){
+                        Icon(
+                            painter = painterResource(R.drawable.plus_circle),
+                            contentDescription = stringResource(R.string.add_new_option),
+                            tint = MaterialTheme.colorScheme.onSecondary
+                        )
+                        Text(
+                            stringResource(R.string.add_new_option),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSecondary
+                        )
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+                if(options.size >= 2) {
+                    Button(
+                        onClick = {showSaveOptionDialog = true},
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ){
+                            Icon(
+                                painter = painterResource(R.drawable.save_icon),
+                                contentDescription = "Save options icon",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Text(
+                                "Save Options",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
                 }
             }
         }
-
+        // Add Option Dialog
         if(showAddOptionDialog) {
             Dialog(
                 onDismissRequest = {
@@ -314,6 +353,52 @@ fun EditOptionsScreen(
                     }
                 }
             }
+        }
+        // Save Options dialog
+        if(showSaveOptionDialog){
+            AlertDialog(
+                onDismissRequest = {showSaveOptionDialog = false},
+                title = {
+                    Text(
+                        "Do you want to save the options to a list to use them later?",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                text = {
+                    Text(
+                        "If you save them, you can use them in the future without having to add each option individually; you will only need to load them on the main page.",
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.addListOptions(
+                                listTitle = "Teste",
+                                options = options
+                            )
+                            showSaveOptionDialog = false
+                        }
+                    ) {
+                        Text(
+                            "Confirm",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Success
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { showSaveOptionDialog = false }
+                    ) {
+                        Text(
+                            "Cancel",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+            )
         }
     }
 }
