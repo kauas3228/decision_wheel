@@ -15,4 +15,6 @@ interface OptionDao {
     suspend fun insertOption(option: Option)
     @Query("DELETE FROM options WHERE id = :optionId")
     suspend fun deleteOption(optionId: String)
+    @Query("DELETE FROM options")
+    suspend fun deleteAllOptions()
 }
