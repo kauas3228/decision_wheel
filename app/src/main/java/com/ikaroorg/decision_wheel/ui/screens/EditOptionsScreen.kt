@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -25,7 +27,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -117,7 +118,7 @@ fun EditOptionsScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -148,36 +149,44 @@ fun EditOptionsScreen(
                         color = MaterialTheme.colorScheme.error
                     )
                 } else {
-                    options.forEach { option ->
-                        OptionCard(
-                            option = option,
-                            onDelete = { viewModel.deleteOption(option.id) }
-                        )
+                    LazyColumn(
+                        modifier = Modifier.height(500.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(
+                            items = options,
+                            key = { option -> option.id}
+                        ) { option ->
+                            OptionCard(
+                                option = option,
+                                onDelete = { viewModel.deleteOption(option.id) }
+                            )
+                        }
                     }
                 }
-                OutlinedButton(
-                    onClick = { showAddOptionDialog = true },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary
+            }
+            Button(
+                onClick = { showAddOptionDialog = true },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ){
+                    Icon(
+                        painter = painterResource(R.drawable.plus_circle),
+                        contentDescription = stringResource(R.string.add_new_option),
+                        tint = MaterialTheme.colorScheme.onSecondary
                     )
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ){
-                        Icon(
-                            painter = painterResource(R.drawable.plus_circle),
-                            contentDescription = stringResource(R.string.add_new_option),
-                            tint = MaterialTheme.colorScheme.onSecondary
-                        )
-                        Text(
-                            stringResource(R.string.add_new_option),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onSecondary
-                        )
-                    }
+                    Text(
+                        stringResource(R.string.add_new_option),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSecondary
+                    )
                 }
             }
         }
