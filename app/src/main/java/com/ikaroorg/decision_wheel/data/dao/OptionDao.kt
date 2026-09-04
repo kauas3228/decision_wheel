@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.ikaroorg.decision_wheel.data.model.Option
 import kotlinx.coroutines.flow.Flow
 
@@ -13,8 +14,15 @@ interface OptionDao {
     fun getAllOptions(): Flow<List<Option>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOption(option: Option)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllOptions(options: List<Option>)
     @Query("DELETE FROM options WHERE id = :optionId")
     suspend fun deleteOption(optionId: String)
     @Query("DELETE FROM options")
     suspend fun deleteAllOptions()
+    @Transaction
+    suspend fun replaceAllOptions(newOptions: List<Option>) {
+        deleteAllOptions()
+        insertAllOptions(newOptions)
+    }
 }

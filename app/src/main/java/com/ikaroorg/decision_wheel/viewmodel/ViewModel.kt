@@ -93,18 +93,23 @@ class ViewModel(
             listOptionsDao.deleteListById(listId)
         }
     }
-
     fun changeLanguage(language: String){
         viewModelScope.launch {
             dataStoreManager.saveLanguage(language)
         }
     }
 
+    fun loadListOption(listOption: ListOptions) {
+        viewModelScope.launch {
+            optionDao.replaceAllOptions(listOption.options)
+        }
+    }
     fun saveIsInitialized() {
         viewModelScope.launch {
             dataStoreManager.saveIsInitialized(true)
         }
     }
+
     val applicationStats: StateFlow<ApplicationStats> = dataStoreManager.isInitialized.map { isSelected ->
         if (isSelected) {
             ApplicationStats.Started

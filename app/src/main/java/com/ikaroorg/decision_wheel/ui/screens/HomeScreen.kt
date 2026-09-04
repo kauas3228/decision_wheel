@@ -14,9 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -50,9 +53,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
+import com.ikaroorg.decision_wheel.ui.components.ListOptionItem
 import com.ikaroorg.decision_wheel.utils.getSelectedOption
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
@@ -69,7 +74,8 @@ fun HomeScreen(
 
     // Observe states in viewModel
     val selectedOption by viewModel.selectedOption.collectAsState()
-    val options by viewModel.options.collectAsState()
+    val options by viewModel.options.collectAsStateWithLifecycle()
+    val savedListOptions by viewModel.savedListOptions.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -215,22 +221,52 @@ fun HomeScreen(
                         )
                     }
                 }
+                if(savedListOptions.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            "List of saved options",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+
+                        LazyColumn(
+                            modifier = Modifier.heightIn(max = 350.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(
+                                savedListOptions,
+                                {list -> list.id}
+                            ) {list ->
+                                ListOptionItem(
+                                    list,
+                                    onClick = { viewModel.loadListOption(list) },
+                                    onDelete = { viewModel.deleteListOption(list.id)}
+                                )
+                            }
+
+                        }
+                    }
+                }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .height(128.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .border(2.dp, MaterialTheme.colorScheme.outline),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    stringResource(R.string.announcement),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            // Announcement section
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp)
+//                    .height(128.dp)
+//                    .background(MaterialTheme.colorScheme.surfaceVariant)
+//                    .border(2.dp, MaterialTheme.colorScheme.outline),
+//                contentAlignment = Alignment.Center,
+//            ) {
+//                Text(
+//                    stringResource(R.string.announcement),
+//                    style = MaterialTheme.typography.headlineSmall,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
 
             selectedOption?.let {
                 ModalBottomSheet(
