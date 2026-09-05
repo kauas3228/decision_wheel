@@ -28,6 +28,14 @@
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 
+    <string name="save_options_list_title">Quer salvar as opções em uma lista para usá-las mais tarde?</string>
+    <string name="save_options_list_alert_description">Se você os salvar, poderá utilizá-los no futuro sem precisar adicionar cada opção individualmente; bastará carregá-los na página principal.</string>
+    <string name="save_options_label">Escreva o título da lista</string>
+
+    <string name="delete_list_confirm_title">Você realmente quer remover esta lista de opções?</string>
+    <string name="delete_list_confirm_text">Se você excluir esta lista, terá que criá-la novamente se quiser voltar a utilizá-la.</string>
+    <string name="complement_option_quantity">opções na lista</string>
+
     <string name="select_language">Selecione o seu idioma de preferência</string>
     <string name="portuguese">Português</string>
     <string name="spanish">Espanhol</string>

@@ -74,6 +74,8 @@ fun EditOptionsScreen(
     var tempColorRex by remember { mutableStateOf<String?>(null) }
     var showAddOptionDialog by remember { mutableStateOf(false) }
 
+    // Dialog confirm and cancel texts
+
     // Add Option Dialog texts
     val closeModalDesc = stringResource(R.string.close_modal_desc)
     val createOptionTitle = stringResource(R.string.create_option_title)
@@ -83,6 +85,8 @@ fun EditOptionsScreen(
     // Save Options Dialog
     var showSaveOptionDialog by remember { mutableStateOf(false) }
     var tempSaveOptionsTitle by remember { mutableStateOf<String?>(null) }
+    val confirmText = stringResource(R.string.confirm)
+    val cancelText = stringResource(R.string.cancel)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -401,7 +405,7 @@ fun EditOptionsScreen(
                             }
                         ) {
                             Text(
-                                "Cancel",
+                                cancelText,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.error
                             )
@@ -425,7 +429,7 @@ fun EditOptionsScreen(
                             )
                         ) {
                             Text(
-                                "Confirm",
+                                confirmText,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                         }

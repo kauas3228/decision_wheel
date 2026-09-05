@@ -39,6 +39,12 @@ fun ListOptionItem(
 ) {
     var showAlertDelete by remember { mutableStateOf(false) }
 
+    // Dialog texts
+    val confirmText = stringResource(R.string.confirm)
+    val cancelText = stringResource(R.string.cancel)
+    val dialogTitle = stringResource(R.string.delete_confirm_title)
+    val dialogText = stringResource(R.string.delete_confirm_text)
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -61,7 +67,7 @@ fun ListOptionItem(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                listOption.options.size.toString() + " options in list",
+                listOption.options.size.toString() + " " + stringResource(R.string.complement_option_quantity),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -84,13 +90,13 @@ fun ListOptionItem(
             onDismissRequest = {showAlertDelete = false},
             title = {
                 Text(
-                    "Do you really want to delete this list option?",
+                    dialogTitle,
                     style = MaterialTheme.typography.titleLarge
                 )
             },
             text = {
                 Text(
-                    "If you delete this list, you will have to create it again if you want to reuse it.",
+                    dialogText,
                     style = MaterialTheme.typography.labelLarge
                 )
             },
@@ -102,7 +108,7 @@ fun ListOptionItem(
                     }
                 ) {
                     Text(
-                        "Confirm",
+                        confirmText,
                         style = MaterialTheme.typography.titleMedium,
                         color = Success
                     )
@@ -113,7 +119,7 @@ fun ListOptionItem(
                     onClick = { showAlertDelete = false }
                 ) {
                     Text(
-                        "Cancel",
+                        cancelText,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.error
                     )
