@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -83,6 +82,8 @@ fun EditOptionsScreen(
 
     // Save Options Dialog
     var showSaveOptionDialog by remember { mutableStateOf(false) }
+    var tempSaveOptionsTitle by remember { mutableStateOf<String?>(null) }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -356,49 +357,81 @@ fun EditOptionsScreen(
         }
         // Save Options dialog
         if(showSaveOptionDialog){
-            AlertDialog(
-                onDismissRequest = {showSaveOptionDialog = false},
-                title = {
-                    Text(
-                        "Do you want to save the options to a list to use them later?",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                text = {
-                    Text(
-                        "If you save them, you can use them in the future without having to add each option individually; you will only need to load them on the main page.",
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            viewModel.addListOptions(
-                                listTitle = "Teste",
-                                options = options
-                            )
-                            showSaveOptionDialog = false
-                        }
+            Dialog(
+                onDismissRequest = {
+                    showSaveOptionDialog = false
+                    tempSaveOptionsTitle = null
+                }
+            ) {
+                Column(
+                    modifier = Modifier.widthIn(max = 350.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            "Confirm",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Success
+                            "Do you want to save the options to a list to use them later?",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Text(
+                            "If you save them, you can use them in the future without having to add each option individually; you will only need to load them on the main page.",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface.copy(0.6f)
                         )
                     }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = { showSaveOptionDialog = false }
+                    OutlinedTextField(
+                        value = tempSaveOptionsTitle ?: "",
+                        onValueChange = {tempSaveOptionsTitle = it},
+                        label = {Text("Write the title of the list")},
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "Cancel",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.error
-                        )
+                        TextButton(
+                            onClick = {
+                                showSaveOptionDialog = false
+                                tempSaveOptionsTitle = null
+                            }
+                        ) {
+                            Text(
+                                "Cancel",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        TextButton(
+                            enabled = tempSaveOptionsTitle?.isEmpty() == false,
+                            onClick = {
+                                tempSaveOptionsTitle?.let { tempSaveOptionsTitle ->
+                                    viewModel.addListOptions(
+                                        listTitle = tempSaveOptionsTitle,
+                                        options = options
+                                    )
+                                }
+                                showSaveOptionDialog = false
+                                tempSaveOptionsTitle = null
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(0.6f),
+                                contentColor = Success
+                            )
+                        ) {
+                            Text(
+                                "Confirm",
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                        }
                     }
                 }
-            )
+            }
         }
     }
 }
