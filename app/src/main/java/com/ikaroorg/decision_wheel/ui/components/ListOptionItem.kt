@@ -38,12 +38,19 @@ fun ListOptionItem(
     onDelete: () -> Unit
 ) {
     var showAlertDelete by remember { mutableStateOf(false) }
+    var showConfirmLoadList by remember { mutableStateOf(false) }
 
-    // Dialog texts
+    // Actions dialog texts
     val confirmText = stringResource(R.string.confirm)
     val cancelText = stringResource(R.string.cancel)
-    val dialogTitle = stringResource(R.string.delete_confirm_title)
-    val dialogText = stringResource(R.string.delete_confirm_text)
+
+    // Dialog texts
+    val dialogDeleteTitle = stringResource(R.string.delete_confirm_title)
+    val dialogDeleteText = stringResource(R.string.delete_confirm_text)
+
+    // Alert Load Options Dialog Texts
+    val warningText = stringResource(R.string.warning)
+    val warningLoadListText = stringResource(R.string.warning_load_list_text)
 
     Row(
         modifier = Modifier
@@ -57,7 +64,7 @@ fun ListOptionItem(
                 .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
                 .border(2.dp, MaterialTheme.colorScheme.outline, shape = RoundedCornerShape(12.dp))
                 .padding(16.dp)
-                .clickable{ onClick() },
+                .clickable{ showConfirmLoadList = true },
             verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -85,18 +92,19 @@ fun ListOptionItem(
             )
         }
     }
+
     if(showAlertDelete){
         AlertDialog(
             onDismissRequest = {showAlertDelete = false},
             title = {
                 Text(
-                    dialogTitle,
+                    dialogDeleteTitle,
                     style = MaterialTheme.typography.titleLarge
                 )
             },
             text = {
                 Text(
-                    dialogText,
+                    dialogDeleteText,
                     style = MaterialTheme.typography.labelLarge
                 )
             },
@@ -117,6 +125,49 @@ fun ListOptionItem(
             dismissButton = {
                 TextButton(
                     onClick = { showAlertDelete = false }
+                ) {
+                    Text(
+                        cancelText,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        )
+    }
+    if(showConfirmLoadList){
+        AlertDialog(
+            onDismissRequest = {showConfirmLoadList = false},
+            title = {
+                Text(
+                    warningText,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.error
+                )
+            },
+            text = {
+                Text(
+                    warningLoadListText,
+                    style = MaterialTheme.typography.labelLarge
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onClick()
+                        showConfirmLoadList = false
+                    }
+                ) {
+                    Text(
+                        confirmText,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Success
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showConfirmLoadList = false }
                 ) {
                     Text(
                         cancelText,

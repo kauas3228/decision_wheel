@@ -36,6 +36,9 @@
     <string name="delete_list_confirm_text">Se você excluir esta lista, terá que criá-la novamente se quiser voltar a utilizá-la.</string>
     <string name="complement_option_quantity">opções na lista</string>
 
+    <string name="warning">Alerta</string>
+    <string name="warning_load_list_text">Carregar esta lista resultará na perda das opções atuais. Tem certeza de que deseja carregar esta lista de opções?</string>
+
     <string name="select_language">Selecione o seu idioma de preferência</string>
     <string name="portuguese">Português</string>
     <string name="spanish">Espanhol</string>

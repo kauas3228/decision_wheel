@@ -36,6 +36,9 @@
     <string name="delete_list_confirm_text">If you delete this list, you will have to create it again if you want to reuse it.</string>
     <string name="complement_option_quantity">options in list</string>
 
+    <string name="warning">Warning</string>
+    <string name="warning_load_list_text">Loading this list will result in the loss of the current options. Are you sure you want to load this list of options?</string>
+
     <string name="select_language">Select your preference language</string>
     <string name="portuguese">Portuguese</string>
     <string name="spanish">Spanish</string>
