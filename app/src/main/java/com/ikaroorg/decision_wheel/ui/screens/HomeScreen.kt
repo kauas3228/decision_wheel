@@ -80,8 +80,8 @@ fun HomeScreen(
     // ModalBottomSheets texts
     val result = stringResource(R.string.result)
     val partyHornyDesc = stringResource(R.string.party_horn_desc)
-    val spinAgain = stringResource(R.string.spin_again)
-
+    val spinAgainNotRepeat = stringResource(R.string.spin_again_not_repeat)
+    val endDrawText = stringResource(R.string.end_draw)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -133,7 +133,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             DecisionWheel(
-                options = options,
+                options = options.filter { option -> option.isAvailable },
                 rotateAngle = rotation.value
             )
             Column(
@@ -275,7 +275,10 @@ fun HomeScreen(
 
             selectedOption?.let {
                 ModalBottomSheet(
-                    onDismissRequest = { viewModel.clearSelectedOption() }
+                    onDismissRequest = {
+                        viewModel.clearSelectedOption()
+                        viewModel.resetAllAvailability()
+                    }
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
@@ -316,34 +319,67 @@ fun HomeScreen(
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
-                        OutlinedButton(
-                            onClick = {viewModel.clearSelectedOption()},
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                contentColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                            enabled = !rotation.isRunning && options.size > 1
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                            OutlinedButton(
+                                onClick = {
+                                    viewModel.markAsDraw(selectedOption!!.id)
+                                    viewModel.clearSelectedOption()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    contentColor = MaterialTheme.colorScheme.primary,
+                                ),
+                                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+                                enabled = !rotation.isRunning && options.size > 1
                             ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.refresh_icon),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(32.dp),
-                                    tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(Modifier.width(12.dp))
-                                Text(
-                                    spinAgain,
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontSize = 18.sp
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.refresh_icon),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(38.dp),
+                                        tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                    Text(
+                                        spinAgainNotRepeat,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontSize = 18.sp
+                                    )
+                                }
+                            }
+                            Button(
+                                onClick = {
+                                    viewModel.clearSelectedOption()
+                                    viewModel.resetAllAvailability()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                ),
+                                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+                                enabled = !rotation.isRunning && options.size > 1
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        endDrawText,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontSize = 18.sp
+                                    )
+                                }
                             }
                         }
                     }

@@ -53,7 +53,16 @@ class ViewModel(
     fun clearSelectedOption() {
         _selectedOption.value = null
     }
-
+    fun markAsDraw(optionId: String) {
+        viewModelScope.launch {
+            optionDao.markAsDraw(optionId)
+        }
+    }
+    fun resetAllAvailability(){
+        viewModelScope.launch {
+            optionDao.resetAllAvailability()
+        }
+    }
     fun addOption(text: String, color: Color) {
         viewModelScope.launch {
             val newOption = Option (

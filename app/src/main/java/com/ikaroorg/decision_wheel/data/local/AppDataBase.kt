@@ -13,7 +13,7 @@ import com.ikaroorg.decision_wheel.data.model.Option
 
 @Database(
     entities = [Option::class, ListOptions::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(ListOptionConverters::class)

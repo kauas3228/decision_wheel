@@ -25,4 +25,8 @@ interface OptionDao {
         deleteAllOptions()
         insertAllOptions(newOptions)
     }
+    @Query("UPDATE options SET isAvailable = 0 WHERE id = :optionId")
+    suspend fun markAsDraw(optionId: String)
+    @Query("UPDATE options SET isAvailable = 1")
+    suspend fun resetAllAvailability()
 }

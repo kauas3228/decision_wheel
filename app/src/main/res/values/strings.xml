@@ -8,7 +8,8 @@
     <string name="announcement">announcement</string>
     <string name="result">RESULT</string>
     <string name="party_horn_desc">party horn symbolizing that the draw has been completed</string>
-    <string name="spin_again">Spin again</string>
+    <string name="spin_again_not_repeat">Draw without repeating results</string>
+    <string name="end_draw">End draw</string>
 
     <string name="no_options_in_wheel">Add at least two options to draw from</string>
     <string name="edit_title">Edit Options</string>

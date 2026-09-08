@@ -10,7 +10,8 @@ import kotlinx.serialization.Serializable
 data class Option (
     @PrimaryKey val id: String,
     val text: String,
-    val color: Long
+    val color: Long,
+    val isAvailable: Boolean = true
 ){
     val colorValue: Color
         get() = Color(color.toULong())
