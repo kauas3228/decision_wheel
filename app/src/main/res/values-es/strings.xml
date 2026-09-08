@@ -28,6 +28,7 @@
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 
+    <string name="save_options">Guardar opciones</string>
     <string name="save_options_list_title">¿Quieres guardar las opciones en una lista para usarlas más tarde?</string>
     <string name="save_options_list_alert_description">Si los guardas, podrás utilizarlos en el futuro sin tener que añadir cada opción individualmente; solo tendrás que cargarlos en la página principal.</string>
     <string name="save_options_label">Escribe el título de la lista</string>

@@ -77,6 +77,11 @@ fun HomeScreen(
     val options by viewModel.options.collectAsStateWithLifecycle()
     val savedListOptions by viewModel.savedListOptions.collectAsStateWithLifecycle()
 
+    // ModalBottomSheets texts
+    val result = stringResource(R.string.result)
+    val partyHornyDesc = stringResource(R.string.party_horn_desc)
+    val spinAgain = stringResource(R.string.spin_again)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -283,7 +288,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                stringResource(R.string.result),
+                                result,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -306,7 +311,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.party_horn),
-                                contentDescription = stringResource(R.string.party_horn_desc),
+                                contentDescription = partyHornyDesc,
                                 modifier = Modifier.size(64.dp),
                                 tint = MaterialTheme.colorScheme.primary
                             )
@@ -335,7 +340,7 @@ fun HomeScreen(
                                 )
                                 Spacer(Modifier.width(12.dp))
                                 Text(
-                                    stringResource(R.string.spin_again),
+                                    spinAgain,
                                     style = MaterialTheme.typography.titleLarge,
                                     fontSize = 18.sp
                                 )

@@ -225,7 +225,7 @@ fun EditOptionsScreen(
                                 modifier = Modifier.size(28.dp)
                             )
                             Text(
-                                "Save Options",
+                                stringResource(R.string.save_options),
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onPrimary
                             )
