@@ -12,7 +12,7 @@
     <string name="end_draw">End draw</string>
     <string name="reset_options">Reset Options</string>
 
-    <string name="no_options_in_wheel">Add at least two options to draw from</string>
+    <string name="no_options_in_wheel">No options available</string>
     <string name="edit_title">Edit Options</string>
     <string name="back_desc">Return to home screen</string>
     <string name="current_config">CURRENT CONFIGURATION</string>

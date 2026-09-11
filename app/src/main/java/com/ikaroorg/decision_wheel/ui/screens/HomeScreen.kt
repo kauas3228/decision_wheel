@@ -188,7 +188,7 @@ fun HomeScreen(
                         disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                         disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
-                    enabled = !rotation.isRunning && options.filter { option -> option.isAvailable }.size > 1
+                    enabled = !rotation.isRunning && !options.none { option -> option.isAvailable }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -358,37 +358,38 @@ fun HomeScreen(
                                 .padding(horizontal = 12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            OutlinedButton(
-                                onClick = {
-                                    viewModel.markAsDraw(selectedOption!!.id)
-                                    viewModel.clearSelectedOption()
-                                    viewModel.setReDraw()
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.surface,
-                                    contentColor = MaterialTheme.colorScheme.primary,
-                                ),
-                                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                                enabled = !rotation.isRunning && options.size > 1
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
+                            if(options.filter { option -> option.isAvailable }.size > 1){
+                                OutlinedButton(
+                                    onClick = {
+                                        viewModel.markAsDraw(selectedOption!!.id)
+                                        viewModel.clearSelectedOption()
+                                        viewModel.setReDraw()
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.surface,
+                                        contentColor = MaterialTheme.colorScheme.primary,
+                                    ),
+                                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
                                 ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.refresh_icon),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(38.dp),
-                                        tint = if (!rotation.isRunning && options.size > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    Spacer(Modifier.width(12.dp))
-                                    Text(
-                                        spinAgainNotRepeat,
-                                        style = MaterialTheme.typography.titleLarge,
-                                        fontSize = 18.sp
-                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(R.drawable.refresh_icon),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(38.dp),
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(Modifier.width(12.dp))
+                                        Text(
+                                            spinAgainNotRepeat,
+                                            style = MaterialTheme.typography.titleLarge,
+                                            fontSize = 18.sp
+                                        )
+                                    }
                                 }
                             }
                             Button(
@@ -404,7 +405,7 @@ fun HomeScreen(
                                     contentColor = MaterialTheme.colorScheme.onPrimary,
                                 ),
                                 border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                                enabled = !rotation.isRunning && options.size > 1
+                                enabled = !rotation.isRunning
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,

@@ -68,7 +68,7 @@ fun DecisionWheel(
                 style = Stroke(width = 5.dp.toPx())
             )
 
-            if (options.size < 2) {
+            if (options.isEmpty()) {
                 val measuredText = textMeasure.measure(
                     text = text,
                     style = TextStyle(

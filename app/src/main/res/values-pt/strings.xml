@@ -12,7 +12,7 @@
     <string name="end_draw">Finalizar sorteio</string>
     <string name="reset_options">Restaurar opções</string>
 
-    <string name="no_options_in_wheel">Adicione pelo menos duas opções para sortear</string>
+    <string name="no_options_in_wheel">Nenhuma opção disponível</string>
     <string name="edit_title">Editar Opções</string>
     <string name="back_desc">Voltar para a tela inicial</string>
     <string name="current_config">CONFIGURAÇÃO ATUAL</string>
