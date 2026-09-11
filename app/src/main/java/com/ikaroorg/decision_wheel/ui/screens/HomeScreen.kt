@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -58,6 +59,8 @@ import androidx.navigation.NavController
 import com.ikaroorg.decision_wheel.R
 import com.ikaroorg.decision_wheel.ui.components.DecisionWheel
 import com.ikaroorg.decision_wheel.ui.components.ListOptionItem
+import com.ikaroorg.decision_wheel.ui.theme.OnWarning
+import com.ikaroorg.decision_wheel.ui.theme.Warning
 import com.ikaroorg.decision_wheel.utils.getSelectedOption
 import com.ikaroorg.decision_wheel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
@@ -76,12 +79,18 @@ fun HomeScreen(
     val selectedOption by viewModel.selectedOption.collectAsState()
     val options by viewModel.options.collectAsStateWithLifecycle()
     val savedListOptions by viewModel.savedListOptions.collectAsStateWithLifecycle()
+    val isReDraw by viewModel.isReDraw.collectAsStateWithLifecycle()
 
     // ModalBottomSheets texts
     val result = stringResource(R.string.result)
     val partyHornyDesc = stringResource(R.string.party_horn_desc)
     val spinAgainNotRepeat = stringResource(R.string.spin_again_not_repeat)
     val endDrawText = stringResource(R.string.end_draw)
+
+    LaunchedEffect(Unit) {
+        viewModel.resetAllAvailability()
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -179,7 +188,7 @@ fun HomeScreen(
                         disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                         disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
-                    enabled = !rotation.isRunning && options.size > 1
+                    enabled = !rotation.isRunning && options.filter { option -> option.isAvailable }.size > 1
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -192,38 +201,64 @@ fun HomeScreen(
                         )
                         Spacer(Modifier.width(6.dp))
                         Text(
-                            stringResource(R.string.spin),
+                            if (isReDraw) stringResource(R.string.spin) + " AGAIN" else stringResource(R.string.spin),
                             style = MaterialTheme.typography.titleLarge
                         )
                     }
                 }
-                OutlinedButton(
-                    onClick = {navController.navigate("edit")},
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.onSecondary,
-                    ),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                    enabled = !rotation.isRunning
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                if (isReDraw){
+                    Button(
+                        onClick = {
+                            viewModel.resetReDraw()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Warning,
+                            contentColor = OnWarning,
+                        ),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
                     ) {
-                        Icon(
-                            painter = painterResource(R.drawable.pencil),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                            tint = MaterialTheme.colorScheme.onSecondary
-                        )
-                        Spacer(Modifier.width(12.dp))
-                        Text(
-                            stringResource(R.string.edit_options),
-                            style = MaterialTheme.typography.titleLarge,
-                            fontSize = 18.sp
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                stringResource(R.string.reset_options),
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 22.sp
+                            )
+                        }
+                    }
+                } else {
+                    Button(
+                        onClick = {navController.navigate("edit")},
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondary,
+                            contentColor = MaterialTheme.colorScheme.onSecondary,
+                        ),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+                        enabled = !rotation.isRunning
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.pencil),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                                tint = MaterialTheme.colorScheme.onSecondary
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Text(
+                                stringResource(R.string.edit_options),
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 18.sp
+                            )
+                        }
                     }
                 }
                 if(savedListOptions.isNotEmpty()){
@@ -277,7 +312,6 @@ fun HomeScreen(
                 ModalBottomSheet(
                     onDismissRequest = {
                         viewModel.clearSelectedOption()
-                        viewModel.resetAllAvailability()
                     }
                 ) {
                     Column(
@@ -328,6 +362,7 @@ fun HomeScreen(
                                 onClick = {
                                     viewModel.markAsDraw(selectedOption!!.id)
                                     viewModel.clearSelectedOption()
+                                    viewModel.setReDraw()
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth(),
@@ -360,6 +395,7 @@ fun HomeScreen(
                                 onClick = {
                                     viewModel.clearSelectedOption()
                                     viewModel.resetAllAvailability()
+                                    viewModel.resetReDraw()
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth(),

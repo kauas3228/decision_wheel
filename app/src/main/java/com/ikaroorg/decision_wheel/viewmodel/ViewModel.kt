@@ -45,8 +45,19 @@ class ViewModel(
         initialValue = emptyList()
     )
 
+    private val _isReDraw = MutableStateFlow<Boolean>(false)
+    val isReDraw: StateFlow<Boolean> = _isReDraw.asStateFlow()
     private val _selectedOption = MutableStateFlow<Option?>(null)
     val selectedOption: StateFlow<Option?> = _selectedOption.asStateFlow()
+
+    fun setReDraw(){
+        _isReDraw.value = true
+    }
+    fun resetReDraw(){
+        _isReDraw.value = false
+        resetAllAvailability()
+    }
+
     fun onSpinFinished(result: Option?) {
         _selectedOption.value = result
     }
