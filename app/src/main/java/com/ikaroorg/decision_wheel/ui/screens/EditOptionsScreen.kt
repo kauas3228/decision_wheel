@@ -160,7 +160,7 @@ fun EditOptionsScreen(
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.height(500.dp),
+                        modifier = Modifier.height(550.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(
