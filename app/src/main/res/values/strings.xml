@@ -9,7 +9,7 @@
     <string name="result">RESULT</string>
     <string name="party_horn_desc">party horn symbolizing that the draw has been completed</string>
     <string name="spin_again_not_repeat">Draw without repeating results</string>
-    <string name="end_draw">End draw</string>
+    <string name="draw_again">Draw again</string>
     <string name="reset_options">Reset Options</string>
 
     <string name="no_options_in_wheel">No options available</string>

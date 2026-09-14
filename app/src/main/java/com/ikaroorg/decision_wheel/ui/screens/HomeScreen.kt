@@ -85,7 +85,7 @@ fun HomeScreen(
     val result = stringResource(R.string.result)
     val partyHornyDesc = stringResource(R.string.party_horn_desc)
     val spinAgainNotRepeat = stringResource(R.string.spin_again_not_repeat)
-    val endDrawText = stringResource(R.string.end_draw)
+    val endDrawText = stringResource(R.string.draw_again)
 
     LaunchedEffect(Unit) {
         viewModel.resetAllAvailability()
@@ -286,7 +286,6 @@ fun HomeScreen(
                                     onDelete = { viewModel.deleteListOption(list.id)}
                                 )
                             }
-
                         }
                     }
                 }
@@ -395,8 +394,6 @@ fun HomeScreen(
                             Button(
                                 onClick = {
                                     viewModel.clearSelectedOption()
-                                    viewModel.resetAllAvailability()
-                                    viewModel.resetReDraw()
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth(),

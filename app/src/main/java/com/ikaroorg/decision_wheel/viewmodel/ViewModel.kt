@@ -45,7 +45,7 @@ class ViewModel(
         initialValue = emptyList()
     )
 
-    private val _isReDraw = MutableStateFlow<Boolean>(false)
+    private val _isReDraw = MutableStateFlow(false)
     val isReDraw: StateFlow<Boolean> = _isReDraw.asStateFlow()
     private val _selectedOption = MutableStateFlow<Option?>(null)
     val selectedOption: StateFlow<Option?> = _selectedOption.asStateFlow()
@@ -90,13 +90,6 @@ class ViewModel(
             optionDao.deleteOption(optionId)
         }
     }
-
-    fun deleteAllOptions() {
-        viewModelScope.launch {
-            optionDao.deleteAllOptions()
-        }
-    }
-
     fun addListOptions(options: List<Option>, listTitle: String){
         viewModelScope.launch {
             val options = ListOptions(
